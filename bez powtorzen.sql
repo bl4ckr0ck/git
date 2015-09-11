@@ -1,1 +1,0 @@
-﻿select distinct miejscowosc from dziekanat.adresy

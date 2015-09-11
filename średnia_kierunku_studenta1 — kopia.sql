@@ -1,1 +1,0 @@
-﻿select count(o.ocena) from dziekanat.studenci s inner join dziekanat.oceny o using(nr_albumu) group by s.nr_albumu
