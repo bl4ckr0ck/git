@@ -1,0 +1,1 @@
+﻿create trigger foob after INSERT OR UPDATE ON foo  for each row execute procedure ainsert();

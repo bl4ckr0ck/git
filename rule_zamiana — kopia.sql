@@ -1,0 +1,1 @@
+﻿create or replace rule zamiana as on update TO foo do instead select fooname from xyz;

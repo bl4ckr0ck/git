@@ -1,0 +1,5 @@
+﻿SELECT DISTINCT * INTO tempo FROM dupes2;
+TRUNCATE TABLE dupes2;
+INSERT INTO dupes2 SELECT * FROM tempo;
+DROP TABLE tempo;
+ 
