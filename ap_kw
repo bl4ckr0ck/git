@@ -1,0 +1,113 @@
+clear all; clc;
+a(1)=0;   %przedzial <a,b>
+b(1)=1.9;
+p=0.0001;    %dokladnosc aproksymacj
+m(1)=(a+b)/2;
+%y=200.*exp(-2.*x) + 2./(2-x);
+Fa=f(a(1));
+Fm=f(m(1));
+Fb=f(b(1));
+k=1;
+zmienna=a:0.1:b;
+fun=200.*exp(-2.*zmienna) + 2./(2-zmienna);
+plot(zmienna,fun);
+hold on;
+plot(a,f(a(1)),'o')
+plot(m,f(m(1)),'o')
+plot(b,f(b(1)),'o')
+hold off;
+for i=1:1000
+    L=Fa*(m(k).^2 - b(k).^2) + Fm*(b(k).^2 - a(k).^2) + Fb*(a(k).^2 - m(k).^2);
+    M=Fa*(m(k) - b(k)) + Fm*(b(k) - a(k)) + Fb*(a(k) - m(k));
+    M=M*2;
+    if M>=0
+        disp('Znaleziono maksimum lub punkt prezgiecia funkcji aproksymujacej')
+        break %na koniec 8 krok
+    end
+    x(k)=L/M;
+    Fx=f(x(k));
+    %krok 2
+    if abs(x(k)-a(k))<p || abs(x(k)-m(k))<p || abs(x(k)-b(k))>=p
+        if a(k)<x(k) && x(k)<b(k)
+            if x(k)<m(k)
+                if Fx<Fm
+                    a(k+1)=a(k);
+                    m(k+1)=x(k);
+                    b(k+1)=m(k);
+                    Fb=Fm;
+                    Fm=Fx;
+                    plot(zmienna,fun);
+                    hold on;
+                    plot(a(k+1),f(a(k+1)),'ro')
+                    plot(m(k+1),f(m(k+1)),'ro')
+                    plot(b(k+1),f(b(k+1)),'ro')
+                    pause;
+                    hold off;
+                elseif Fx>Fm
+                    a(k+1)=x(k);
+                    m(k+1)=m(k);
+                    b(k+1)=b(k);
+                    Fa=Fx;
+                    hold on;
+                    plot(a(k+1),f(a(k+1)),'ro')
+                    plot(m(k+1),f(m(k+1)),'ro')
+                    plot(b(k+1),f(b(k+1)),'ro')
+                    pause;
+                    hold off;
+                end
+            else
+                if Fx<Fm
+                    a(k+1)=m(k);
+                    m(k+1)=x(k);
+                    b(k+1)=b(k);
+                    Fa=Fm;
+                    Fm=Fx;
+                    hold on;
+                    plot(a(k+1),f(a(k+1)),'ro')
+                    plot(m(k+1),f(m(k+1)),'ro')
+                    plot(b(k+1),f(b(k+1)),'ro')
+                    pause;
+                    hold off;
+                elseif Fx>Fm
+                    a(k+1)=a(k);
+                    m(k+1)=m(k);
+                    b(k+1)=x(k);
+                    Fb=Fx;
+                    hold on;
+                    plot(a(k+1),f(a(k+1)),'ro')
+                    plot(m(k+1),f(m(k+1)),'ro')
+                    plot(b(k+1),f(b(k+1)),'ro')
+                    pause;
+                    hold off;
+                end
+            end
+        else
+            disp('Minimum funkcji aproksymujacej znajduje sie poza badanym przedzialem')
+        break
+        end
+    if (b(k+1)-a(k+1))>=p
+        disp('Wracam do poczatku')
+    else
+        if(Fx<Fm)
+            minimum=x(k)
+            lkrokow=i
+        else
+            minimum=m(k)
+            lkrokow=i
+        end
+            break;
+        end
+       
+    end
+    %if (b(k+1)-a(k+1))<p
+     %   if(Fx<Fm)
+      %      minimum=x(k)
+       %     lkrokow=i
+        %elseif
+         %   minimum=m(k)
+          %  lkrokow=i
+        %end
+        %break;
+    %end
+    k=(k+1);
+end
